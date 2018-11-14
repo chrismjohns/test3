@@ -1,0 +1,29 @@
+/* 	Rename me to Explicit.js
+	Double Click in Explorer to run
+
+Script by Otto - http://ottodestruct.com       */
+
+
+var iTunesApp = WScript.CreateObject("iTunes.Application");
+var tracks    = iTunesApp.LibraryPlaylist.Tracks;
+var numTracks = tracks.Count;
+var i;
+for (i = 1; i <= numTracks; i++)
+{
+	try {
+		//get the track and lyrics from the track
+		var currTrack = tracks.Item(i);
+		var mylyrics = currTrack.Lyrics;
+
+		// look for bad words
+		var badFound = mylyrics.match(/badword1|badword2|badword3/i);
+
+		// flag the track as Explicit
+		if (badFound != null) {
+			var myComm = currTrack.Comment;
+			if (myComm.match(/explicit/i) == null)
+				currTrack.Comment = myComm + " Explicit";
+		}
+	} catch(er) {// in the rye
+	}
+}
